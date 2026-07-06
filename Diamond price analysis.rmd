@@ -1,6 +1,6 @@
 ---
 title: "Diamond Price Analysis"
-author: "Your Name"
+author: "Sruthirekha Ashokkumar"
 output: html_document
 ---
 
