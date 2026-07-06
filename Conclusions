@@ -1,0 +1,13 @@
+## 🧾 Conclusion
+
+This analysis explored the relationship between diamond characteristics and price using the ggplot2 diamonds dataset.
+
+### Key takeaways:
+- Carat has the strongest influence on diamond price
+- Price distribution is highly right-skewed, meaning most diamonds are lower priced
+- Cut, color, and clarity also affect pricing, but less strongly than carat
+- Higher clarity and better cut generally correspond to higher prices
+- A linear regression model can reasonably estimate diamond prices based on physical attributes
+
+### Final insight:
+Diamond price is driven primarily by size (carat), while quality features (cut, color, clarity) provide secondary adjustments to pricing.
