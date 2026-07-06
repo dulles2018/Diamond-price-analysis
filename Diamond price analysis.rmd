@@ -1,0 +1,217 @@
+---
+title: "Diamond Price Analysis"
+author: "Your Name"
+output: html_document
+---
+
+# Introduction
+
+This project analyzes the **ggplot2 diamonds dataset** to understand how diamond characteristics such as carat, cut, color, and clarity affect price. The analysis includes data exploration, visualization, correlation analysis, and linear regression modeling.
+
+---
+
+# Dataset Overview
+
+The dataset used is the built-in `diamonds` dataset from the `ggplot2` package.
+
+It contains:
+- 53,940 observations
+- 10 variables
+
+Variables include:
+- price
+- carat
+- cut
+- color
+- clarity
+- depth
+- table
+- x, y, z (dimensions)
+
+---
+
+# Load Libraries
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(GGally)
+library(corrplot)
+```
+
+---
+
+# Load Dataset
+
+```{r}
+data("diamonds")
+head(diamonds)
+```
+
+---
+
+# Data Exploration
+
+## Structure of Data
+
+```{r}
+str(diamonds)
+```
+
+## Summary Statistics
+
+```{r}
+summary(diamonds)
+```
+
+## Missing Values
+
+```{r}
+colSums(is.na(diamonds))
+```
+
+---
+
+# Exploratory Data Analysis
+
+## Price Distribution
+
+```{r}
+ggplot(diamonds, aes(price)) +
+  geom_histogram(binwidth = 500, fill = "steelblue") +
+  labs(title = "Distribution of Diamond Prices")
+```
+
+---
+
+## Carat Distribution
+
+```{r}
+ggplot(diamonds, aes(carat)) +
+  geom_histogram(bins = 30, fill = "darkgreen") +
+  labs(title = "Distribution of Diamond Carat")
+```
+
+---
+
+## Price by Cut
+
+```{r}
+ggplot(diamonds, aes(cut, price, fill = cut)) +
+  geom_boxplot() +
+  theme(legend.position = "none") +
+  labs(title = "Diamond Price by Cut")
+```
+
+---
+
+## Price by Color
+
+```{r}
+ggplot(diamonds, aes(color, price, fill = color)) +
+  geom_boxplot() +
+  theme(legend.position = "none") +
+  labs(title = "Diamond Price by Color")
+```
+
+---
+
+## Price by Clarity
+
+```{r}
+ggplot(diamonds, aes(clarity, price, fill = clarity)) +
+  geom_boxplot() +
+  theme(legend.position = "none") +
+  labs(title = "Diamond Price by Clarity")
+```
+
+---
+
+## Carat vs Price
+
+```{r}
+ggplot(diamonds, aes(carat, price)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Relationship Between Carat and Price")
+```
+
+---
+
+# Correlation Analysis
+
+```{r}
+numeric_data <- diamonds %>%
+  select(carat, depth, table, price, x, y, z)
+
+cor_matrix <- cor(numeric_data)
+
+corrplot(cor_matrix, method = "color", tl.cex = 0.8)
+```
+
+---
+
+# Summary Statistics by Groups
+
+## Average Price by Cut
+
+```{r}
+diamonds %>%
+  group_by(cut) %>%
+  summarise(AveragePrice = mean(price))
+```
+
+## Average Price by Color
+
+```{r}
+diamonds %>%
+  group_by(color) %>%
+  summarise(AveragePrice = mean(price))
+```
+
+## Average Price by Clarity
+
+```{r}
+diamonds %>%
+  group_by(clarity) %>%
+  summarise(AveragePrice = mean(price))
+```
+
+---
+
+# Regression Model
+
+We build a linear regression model to predict diamond price.
+
+```{r}
+model <- lm(price ~ carat + depth + table + x + y + z,
+            data = diamonds)
+
+summary(model)
+```
+
+---
+
+# Prediction Example
+
+```{r}
+predict(model, newdata = data.frame(
+  carat = 1,
+  depth = 61,
+  table = 57,
+  x = 6.4,
+  y = 6.4,
+  z = 3.9
+))
+```
+
+---
+
+# Conclusion
+
+This analysis shows that:
+
+- Carat is the strongest predictor of price
+- Price distribution is highly right-skewed
+- Cut, color, and clarity all influence price
+- A linear regression model can reasonably estimate diamond price
